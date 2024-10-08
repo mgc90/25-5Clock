@@ -1,0 +1,12 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.comple {
+    color: red;
+    transition: '0.9s ease';
+}
