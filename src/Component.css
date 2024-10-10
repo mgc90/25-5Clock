@@ -4,9 +4,75 @@
     text-align: center;
     align-items: center;
     flex-direction: column;
+    margin: 10vmin auto;
+    border: 10px solid black;
+    width: 75%;
+    background: linear-gradient(
+        black,
+        lightcyan, 
+        var(--changeColor),
+        black
+    );
+    text-shadow: 2px 2px  lightsteelblue;
+    border-radius: 0.5cap;
 }
 
-.comple {
-    color: red;
-    transition: '0.9s ease';
+button {
+    font-size: 4vmin;
+    padding: 0.5vmin;
+    opacity: 0.9;
+    background: linear-gradient(
+        white, grey, white
+    );
+    text-shadow: inherit;
+    border: 5px solid black;
+    border-radius: 0.4cap;
+    font-weight: 900;
+    margin: 1vmin;
 }
+
+button:active {
+    background: linear-gradient(
+        grey, white, grey
+    );
+}
+
+#break-label, #session-label {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 5vmin;
+    font-weight: 900;
+    justify-self: start;
+    text-align: center;
+    border: 5px solid black;
+    background: linear-gradient(
+        grey,
+        white,
+        grey
+    );
+}
+
+#break-label > p, #session-label > p {
+    margin: 0;
+    width: 50%;
+}
+
+#break-length, #session-length {
+    width: 1rem;
+    padding: 0;
+ }
+   
+#timer-label {
+    margin: 1vmin auto;
+    width: 36vmin;
+    font-size: 7vmin;
+    font-weight: 900;
+    border: 10px solid black;
+    border-radius: 0.4cap;
+    background: linear-gradient(
+        lightsteelblue, white, lightsteelblue
+    );
+} 
+

@@ -5,7 +5,7 @@ import Countdown, { zeroPad } from 'react-countdown';
 const Component = () => {
   const [ breakLength, setBreakLength ] = useState(5);
   const [ sessionLength, setSessionLength ] = useState(25);
-  const [ sessionState, setSessionState ] = useState("Session");
+  const [ countMode, setCountMode ] = useState("Session");
  
   const countdownRef = useRef();
   const audioRef = useRef();
@@ -33,7 +33,7 @@ const Component = () => {
   const handleReset = () => {
     setBreakLength(5);
     setSessionLength(25);
-    setSessionState("Session");
+    setCountMode("Session");
     countdownRef.current.getApi().stop();
     audioRef.current.pause();
     audioRef.current.load();
@@ -47,23 +47,22 @@ const Component = () => {
   }
 
   const date = (long) => {
-    sessionState === "Session" ? long = sessionLength : long = breakLength;
+    countMode === "Session" ? long = sessionLength : long = breakLength;
     return Date.now() + long * 60000;
   }
 
-  const reachZero = () => {
+  const updateCount = () => {
     countdownRef.current.getApi().stop();
-     (sessionState === "Break") ?
-      setSessionState("Session") :
-      setSessionState("Break"); 
+     (countMode === "Break") ?
+      setCountMode("Session") :
+      setCountMode("Break"); 
       countdownRef.current.getApi().start()
   }
 
-  const completedd = () => {
+  const reachZero = () => {
     audioRef.current.play();
- 
     const timeoutId = setTimeout(() => {
-      reachZero();
+      updateCount();
     }, 1000);
     return () => clearTimeout(timeoutId);
   }
@@ -75,31 +74,32 @@ const Component = () => {
     </div>)
   }
 
+  const changeColor = countMode === "Session" ? "darkcyan" : "saddlebrown";
 
   return (
-    <div className='mainContainer'>
+    <div className='mainContainer' style={{"--changeColor": changeColor}}>
       <div id='break-label'>
-        Break Length <br />
+        <p>Break Length</p> 
         <button id='break-increment' onClick={() => handleBreakLength("increment")} >▲</button>
         <div id='break-length' >{breakLength}</div>
         <button id='break-decrement' onClick={() => handleBreakLength("decrement")} >▼</button>
       </div>
       <div id='session-label'>
-        Session Length <br />
-        <button id='session-increment' onClick={() => handleSessionLength("increment")}  >▲</button>
+        <p>Session Length</p>
+        <button id='session-increment' onClick={() => handleSessionLength("increment")} >▲</button>
         <div id='session-length' >{sessionLength}</div>
         <button id='session-decrement' onClick={() => handleSessionLength("decrement")} >▼</button>
       </div>
       <div id='timer-label' >
-        {sessionState} 
+        {countMode} 
         <div id="countdownContainer" >
           <Countdown date={date()} renderer={renderer}
           zeroPadTime={2} ref={countdownRef} controlled={false}
-          autoStart={false} onComplete={completedd} />
+          autoStart={false} onComplete={reachZero} />
         </div>
       </div>
       <div>
-        <button id='start_stop' onClick={startStop} >Start/Stop</button>
+        <button id='start_stop' onClick={startStop} >Start/Pause</button>
         <button id='reset' onClick={handleReset} >Reset</button>
       </div>
       <audio  id="beep" ref={audioRef}
